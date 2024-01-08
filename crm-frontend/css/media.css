@@ -1,0 +1,15 @@
+@media(max-width: 670px) {
+  .header{
+    display: flex;
+  }
+  
+  .header__input {
+    width: 100%;
+  }
+}
+
+@media(max-width: 320px) {
+  .header__input-box {
+    display: none;
+  }
+}
