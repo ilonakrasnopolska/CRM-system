@@ -56,7 +56,16 @@ body {
 }
 
 ul {
+  padding: 0;
   list-style-type: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
 }
 
 .header {
@@ -66,11 +75,17 @@ ul {
 }
 
 .header__container {
+  max-width: 1024px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 50px;
-  margin: 0 auto;
-  padding: 20px 25px;
+  padding: 20px 0;
+}
+
+.header__logo-link {
+  min-width: 50px;
+  min-height: 50px;
 }
 
 .header__input {
@@ -84,10 +99,52 @@ ul {
 .section {
   max-width: 1024px;
   margin: 0 auto;
-  padding: 15px 0;
 }
 
 .container {
   max-width: 1024px;
   padding: 15px 0;
+}
+
+.title {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33px;
+}
+
+
+.table__header {
+  display: flex;
+  gap: 50px;
+  overflow: hidden;
+  width: 85%;
+}
+
+.table__header-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #B0B0B0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.table__header-button-txt {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
+  color:#9873FF;
+  opacity: 50%;
+}
+
+.table__header-bth-id {
+  color:#9873FF;
+}
+
+.table__svg-arrow {
+  opacity: 50%;
 }
