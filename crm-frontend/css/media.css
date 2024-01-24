@@ -1,3 +1,10 @@
+@media(max-width: 950px) {
+  .modal {
+    right: 25%;
+    left: 25%;
+  }
+}
+
 @media(max-width: 670px) {
   .header{
     display: flex;
@@ -6,10 +13,42 @@
   .header__input {
     width: 100%;
   }
+
+  .modal {
+    width: 300px;
+    right: 0;
+    left: 27%;
+  }
+
+  .modal__title-btn-box {
+    width: 300px;
+  }
+
+  .modal__input-box {
+    width: 300px; 
+  }
+
+  .modal__buttons {
+    width: 300px;
+  }
+
+  .modal__select  {
+    padding: 0 5px;
+  }
 }
 
-@media(max-width: 320px) {
+@media(max-width: 520px) {
+  .modal {
+    left: 15%;
+  }
+}
+
+@media(max-width: 330px) {
   .header__input-box {
     display: none;
+  }
+
+  .modal {
+    left: 5%;
   }
 }
