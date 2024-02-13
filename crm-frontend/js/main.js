@@ -13,29 +13,46 @@ let currentModal = null
 //create contacts components array
 let contactsArray = [
   {
+    value: 'Phone number',
     type: 'Phone number',
-    logo: createSvg("d", "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM3 8C3 5.24 5.24 3 8 3C10.76 3 13 5.24 13 8C13 10.76 10.76 13 8 13C5.24 13 3 10.76 3 8ZM9.5 6C9.5 5.17 8.83 4.5 8 4.5C7.17 4.5 6.5 5.17 6.5 6C6.5 6.83 7.17 7.5 8 7.5C8.83 7.5 9.5 6.83 9.5 6ZM5 9.99C5.645 10.96 6.75 11.6 8 11.6C9.25 11.6 10.355 10.96 11 9.99C10.985 8.995 8.995 8.45 8 8.45C7 8.45 5.015 8.995 5 9.99Z", "fill", "#9873FF", "opacity", "0.7"),
+    label: 'Phone number',
+    logo: createSvg("d", "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM3 8C3 5.24 5.24 3 8 3C10.76 3 13 5.24 13 8C13 10.76 10.76 13 8 13C5.24 13 3 10.76 3 8ZM9.5 6C9.5 5.17 8.83 4.5 8 4.5C7.17 4.5 6.5 5.17 6.5 6C6.5 6.83 7.17 7.5 8 7.5C8.83 7.5 9.5 6.83 9.5 6ZM5 9.99C5.645 10.96 6.75 11.6 8 11.6C9.25 11.6 10.355 10.96 11 9.99C10.985 8.995 8.995 8.45 8 8.45C7 8.45 5.015 8.995 5 9.99Z", "fill", "#9873FF", "table__contact-svg", "16"),
     placeholder: 'Enter phone number',
   },
   {
+    value: 'Additional phone',
     type: 'Additional phone',
-    logo: createSvg("d", "M11.56 9.50222C11.0133 9.50222 10.4844 9.41333 9.99111 9.25333C9.83556 9.2 9.66222 9.24 9.54222 9.36L8.84444 10.2356C7.58667 9.63556 6.40889 8.50222 5.78222 7.2L6.64889 6.46222C6.76889 6.33778 6.80444 6.16444 6.75556 6.00889C6.59111 5.51556 6.50667 4.98667 6.50667 4.44C6.50667 4.2 6.30667 4 6.06667 4H4.52889C4.28889 4 4 4.10667 4 4.44C4 8.56889 7.43556 12 11.56 12C11.8756 12 12 11.72 12 11.4756V9.94222C12 9.70222 11.8 9.50222 11.56 9.50222Z", "fill", "#9873FF", "opacity", "16"),
+    label: 'Additional phone',
+    logo: createSvg("d", "M11.56 9.50222C11.0133 9.50222 10.4844 9.41333 9.99111 9.25333C9.83556 9.2 9.66222 9.24 9.54222 9.36L8.84444 10.2356C7.58667 9.63556 6.40889 8.50222 5.78222 7.2L6.64889 6.46222C6.76889 6.33778 6.80444 6.16444 6.75556 6.00889C6.59111 5.51556 6.50667 4.98667 6.50667 4.44C6.50667 4.2 6.30667 4 6.06667 4H4.52889C4.28889 4 4 4.10667 4 4.44C4 8.56889 7.43556 12 11.56 12C11.8756 12 12 11.72 12 11.4756V9.94222C12 9.70222 11.8 9.50222 11.56 9.50222Z", "fill", "#FFFFFF", "table__contact-svg-phone", "16"),
     placeholder: 'Enter an additional phone',
   },
   {
+    value: 'Email',
     type: 'Email',
-    logo: createSvg("d", "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM4 5.75C4 5.3375 4.36 5 4.8 5H11.2C11.64 5 12 5.3375 12 5.75V10.25C12 10.6625 11.64 11 11.2 11H4.8C4.36 11 4 10.6625 4 10.25V5.75ZM8.424 8.1275L11.04 6.59375C11.14 6.53375 11.2 6.4325 11.2 6.32375C11.2 6.0725 10.908 5.9225 10.68 6.05375L8 7.625L5.32 6.05375C5.092 5.9225 4.8 6.0725 4.8 6.32375C4.8 6.4325 4.86 6.53375 4.96 6.59375L7.576 8.1275C7.836 8.28125 8.164 8.28125 8.424 8.1275Z", "fill", "#9873FF", "opacity", "0.7"),
+    label: 'Email',
+    logo: createSvg("d", "M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM4 5.75C4 5.3375 4.36 5 4.8 5H11.2C11.64 5 12 5.3375 12 5.75V10.25C12 10.6625 11.64 11 11.2 11H4.8C4.36 11 4 10.6625 4 10.25V5.75ZM8.424 8.1275L11.04 6.59375C11.14 6.53375 11.2 6.4325 11.2 6.32375C11.2 6.0725 10.908 5.9225 10.68 6.05375L8 7.625L5.32 6.05375C5.092 5.9225 4.8 6.0725 4.8 6.32375C4.8 6.4325 4.86 6.53375 4.96 6.59375L7.576 8.1275C7.836 8.28125 8.164 8.28125 8.424 8.1275Z", "fill", "#9873FF", "table__contact-svg", "16"),
     placeholder: 'Enter email address',
   },
   {
+    value: 'Vk',
     type: 'Vk',
-    logo: createSvg("d", "M8 0C3.58187 0 0 3.58171 0 8C0 12.4183 3.58187 16 8 16C12.4181 16 16 12.4183 16 8C16 3.58171 12.4181 0 8 0ZM12.058 8.86523C12.4309 9.22942 12.8254 9.57217 13.1601 9.97402C13.3084 10.1518 13.4482 10.3356 13.5546 10.5423C13.7065 10.8371 13.5693 11.1604 13.3055 11.1779L11.6665 11.1776C11.2432 11.2126 10.9064 11.0419 10.6224 10.7525C10.3957 10.5219 10.1853 10.2755 9.96698 10.037C9.87777 9.93915 9.78382 9.847 9.67186 9.77449C9.44843 9.62914 9.2543 9.67366 9.1263 9.90707C8.99585 10.1446 8.96606 10.4078 8.95362 10.6721C8.93577 11.0586 8.81923 11.1596 8.43147 11.1777C7.60291 11.2165 6.81674 11.0908 6.08606 10.6731C5.44147 10.3047 4.94257 9.78463 4.50783 9.19587C3.66126 8.04812 3.01291 6.78842 2.43036 5.49254C2.29925 5.2007 2.39517 5.04454 2.71714 5.03849C3.25205 5.02817 3.78697 5.02948 4.32188 5.03799C4.53958 5.04143 4.68362 5.166 4.76726 5.37142C5.05633 6.08262 5.4107 6.75928 5.85477 7.38684C5.97311 7.55396 6.09391 7.72059 6.26594 7.83861C6.45582 7.9689 6.60051 7.92585 6.69005 7.71388C6.74734 7.57917 6.77205 7.43513 6.78449 7.29076C6.82705 6.79628 6.83212 6.30195 6.75847 5.80943C6.71263 5.50122 6.53929 5.30218 6.23206 5.24391C6.07558 5.21428 6.0985 5.15634 6.17461 5.06697C6.3067 4.91245 6.43045 4.81686 6.67777 4.81686L8.52951 4.81653C8.82136 4.87382 8.88683 5.00477 8.92645 5.29874L8.92808 7.35656C8.92464 7.47032 8.98521 7.80751 9.18948 7.88198C9.35317 7.936 9.4612 7.80473 9.55908 7.70112C10.0032 7.22987 10.3195 6.67368 10.6029 6.09801C10.7279 5.84413 10.8358 5.58142 10.9406 5.31822C11.0185 5.1236 11.1396 5.02785 11.3593 5.03112L13.1424 5.03325C13.195 5.03325 13.2483 5.03374 13.3004 5.04274C13.6009 5.09414 13.6832 5.22345 13.5903 5.5166C13.4439 5.97721 13.1596 6.36088 12.8817 6.74553C12.5838 7.15736 12.2661 7.55478 11.9711 7.96841C11.7001 8.34652 11.7215 8.53688 12.058 8.86523Z", "fill", "#9873FF", "opacity", "0.7"),
+    label: 'Vk',
+    logo: createSvg("d", "M8 0C3.58187 0 0 3.58171 0 8C0 12.4183 3.58187 16 8 16C12.4181 16 16 12.4183 16 8C16 3.58171 12.4181 0 8 0ZM12.058 8.86523C12.4309 9.22942 12.8254 9.57217 13.1601 9.97402C13.3084 10.1518 13.4482 10.3356 13.5546 10.5423C13.7065 10.8371 13.5693 11.1604 13.3055 11.1779L11.6665 11.1776C11.2432 11.2126 10.9064 11.0419 10.6224 10.7525C10.3957 10.5219 10.1853 10.2755 9.96698 10.037C9.87777 9.93915 9.78382 9.847 9.67186 9.77449C9.44843 9.62914 9.2543 9.67366 9.1263 9.90707C8.99585 10.1446 8.96606 10.4078 8.95362 10.6721C8.93577 11.0586 8.81923 11.1596 8.43147 11.1777C7.60291 11.2165 6.81674 11.0908 6.08606 10.6731C5.44147 10.3047 4.94257 9.78463 4.50783 9.19587C3.66126 8.04812 3.01291 6.78842 2.43036 5.49254C2.29925 5.2007 2.39517 5.04454 2.71714 5.03849C3.25205 5.02817 3.78697 5.02948 4.32188 5.03799C4.53958 5.04143 4.68362 5.166 4.76726 5.37142C5.05633 6.08262 5.4107 6.75928 5.85477 7.38684C5.97311 7.55396 6.09391 7.72059 6.26594 7.83861C6.45582 7.9689 6.60051 7.92585 6.69005 7.71388C6.74734 7.57917 6.77205 7.43513 6.78449 7.29076C6.82705 6.79628 6.83212 6.30195 6.75847 5.80943C6.71263 5.50122 6.53929 5.30218 6.23206 5.24391C6.07558 5.21428 6.0985 5.15634 6.17461 5.06697C6.3067 4.91245 6.43045 4.81686 6.67777 4.81686L8.52951 4.81653C8.82136 4.87382 8.88683 5.00477 8.92645 5.29874L8.92808 7.35656C8.92464 7.47032 8.98521 7.80751 9.18948 7.88198C9.35317 7.936 9.4612 7.80473 9.55908 7.70112C10.0032 7.22987 10.3195 6.67368 10.6029 6.09801C10.7279 5.84413 10.8358 5.58142 10.9406 5.31822C11.0185 5.1236 11.1396 5.02785 11.3593 5.03112L13.1424 5.03325C13.195 5.03325 13.2483 5.03374 13.3004 5.04274C13.6009 5.09414 13.6832 5.22345 13.5903 5.5166C13.4439 5.97721 13.1596 6.36088 12.8817 6.74553C12.5838 7.15736 12.2661 7.55478 11.9711 7.96841C11.7001 8.34652 11.7215 8.53688 12.058 8.86523Z", "fill", "#9873FF", "table__contact-svg", "16"),
     placeholder: 'Add social network',
   },
   {
+    value: 'Facebook',
     type: 'Facebook',
-    logo: createSvg("d", "M7.99999 0C3.6 0 0 3.60643 0 8.04819C0 12.0643 2.928 15.3976 6.75199 16V10.3775H4.71999V8.04819H6.75199V6.27309C6.75199 4.25703 7.94399 3.14859 9.77599 3.14859C10.648 3.14859 11.56 3.30121 11.56 3.30121V5.28514H10.552C9.55999 5.28514 9.24799 5.90362 9.24799 6.53815V8.04819H11.472L11.112 10.3775H9.24799V16C11.1331 15.7011 12.8497 14.7354 14.0879 13.2772C15.3261 11.819 16.0043 9.96437 16 8.04819C16 3.60643 12.4 0 7.99999 0Z", "fill", "#9873FF", "opacity", "0.7"),
+    label: 'Facebook',
+    logo: createSvg("d", "M7.99999 0C3.6 0 0 3.60643 0 8.04819C0 12.0643 2.928 15.3976 6.75199 16V10.3775H4.71999V8.04819H6.75199V6.27309C6.75199 4.25703 7.94399 3.14859 9.77599 3.14859C10.648 3.14859 11.56 3.30121 11.56 3.30121V5.28514H10.552C9.55999 5.28514 9.24799 5.90362 9.24799 6.53815V8.04819H11.472L11.112 10.3775H9.24799V16C11.1331 15.7011 12.8497 14.7354 14.0879 13.2772C15.3261 11.819 16.0043 9.96437 16 8.04819C16 3.60643 12.4 0 7.99999 0Z", "fill", "#9873FF", "table__contact-svg", "16"),
     placeholder: 'Add social network',
+  },
+  {
+    value: 'Other',
+    type: 'Other',
+    label: 'Other',
+    logo: createSvg("d", "M4.92969 8.52734H3.375V7.83203H4.92969V6.23828H5.63281V7.83203H7.19141V8.52734H5.63281V10.1133H4.92969V8.52734ZM7.9375 8.56641C7.9375 6.33203 8.84766 5.21484 10.668 5.21484C10.9544 5.21484 11.1966 5.23698 11.3945 5.28125V6.04688C11.1966 5.98958 10.9674 5.96094 10.707 5.96094C10.0951 5.96094 9.63542 6.125 9.32812 6.45312C9.02083 6.78125 8.85417 7.30729 8.82812 8.03125H8.875C8.9974 7.82031 9.16927 7.65755 9.39062 7.54297C9.61198 7.42578 9.8724 7.36719 10.1719 7.36719C10.6901 7.36719 11.0938 7.52604 11.3828 7.84375C11.6719 8.16146 11.8164 8.59245 11.8164 9.13672C11.8164 9.73568 11.6484 10.2096 11.3125 10.5586C10.9792 10.9049 10.5234 11.0781 9.94531 11.0781C9.53646 11.0781 9.18099 10.9805 8.87891 10.7852C8.57682 10.5872 8.34375 10.3008 8.17969 9.92578C8.01823 9.54818 7.9375 9.09505 7.9375 8.56641ZM9.92969 10.3203C10.2448 10.3203 10.487 10.2188 10.6562 10.0156C10.8281 9.8125 10.9141 9.52214 10.9141 9.14453C10.9141 8.81641 10.8333 8.55859 10.6719 8.37109C10.513 8.18359 10.2734 8.08984 9.95312 8.08984C9.75521 8.08984 9.57292 8.13281 9.40625 8.21875C9.23958 8.30208 9.10807 8.41797 9.01172 8.56641C8.91536 8.71224 8.86719 8.86198 8.86719 9.01562C8.86719 9.38281 8.96615 9.69271 9.16406 9.94531C9.36458 10.1953 9.61979 10.3203 9.92969 10.3203Z", "fill", "#333333", "table__other-svg", "16"),
+    placeholder: 'Add other contact',
   },
 ]
 
@@ -46,14 +63,28 @@ let clientsArray = [
     fullName: 'Ilona Sue Kras',
     dateOfCreation: `${getDate()} ${getTime()}`,
     latestChanges: `${getDate()} ${getTime()}`,
-    contacts: contactsArray.contact,
+    contacts: newClientContactsArray = [
+      {
+        contact: '6785899',
+        type: 'Phone number'
+      }
+    ],
   },
   {
     id: getRandomNumber(1000, 10000),
     fullName: 'Ilona Sue Kras',
     dateOfCreation: `${getDate()} ${getTime()}`,
     latestChanges: `${getDate()} ${getTime()}`,
-    contacts: contactsArray.contact,
+    contacts: newClientContactsArray = [
+      {
+        contact: '6785899',
+        type: 'Phone number'
+      },
+      {
+        contact: 'fdhfjh@fhdjfh',
+        type: 'Email',
+      }
+    ],
   }
 ]
 
@@ -154,17 +185,31 @@ function createSvg(attribute, coordinates, fill, color, className, size) {
   return svg
 }
 
-// if user click to ESC
+// if user click to ESC when modal is open
 function handleKeyPress(e) {
   if (e.key === 'Escape') {
     closeModal()
   }
 }
 
-//function with conditions for closing modal window
+//func stop propagation
+function stopPropagation(event) {
+  event.stopPropagation()
+}
+
+//function close modal window 
+function closeModal() {
+  if (currentModal) {
+    boxShadowOfBody.classList.add('close')
+    boxShadowOfBody.classList.remove('shadow-on')
+    currentModal.classList.remove('open')
+    currentModal.remove()
+    currentModal = null
+  }
+}
+
+//function with conditions for closing modal window if user trying to close it
 function handleCloseConditions(event) {
-  // remove class name for animation before creating a new modal
-  boxShadowOfBody.classList.remove('close')
 
   if (event && event.target) {
     // add event to body shadow if the user clicks on the body and not on the modal
@@ -181,17 +226,24 @@ function handleCloseConditions(event) {
   // add event for esc only once
   window.addEventListener('keydown', handleKeyPress)
 
-  // reset all before creating a new window
-  closeModal()
-
   // call func which creates all conditions for closing window if the user clicks
   boxShadowOfBody.addEventListener('click', handleCloseConditions)
+  closeModal()
 }
 
-//function for removing event listener 
-function removeEventListeners() {
+//function for removing event listener before closing modal
+function removeModalEventListeners() {
   boxShadowOfBody.removeEventListener('click', handleCloseConditions)
   window.removeEventListener('keydown', handleKeyPress)
+
+  if (currentModal) {
+    const boxShadowOfBody = document.querySelector('.box-shadow')
+    if (boxShadowOfBody) {
+      boxShadowOfBody.removeEventListener('click', function (event) {
+        event.stopPropagation()
+      })
+    }
+  }
 }
 
 //function create date - for date of creation and latest changes 
@@ -199,7 +251,7 @@ function getDate() {
   //get current date
   const currentDate = new Date()
 
-  // получаем год
+  // get year
   const year = currentDate.getFullYear()
   // Месяц с ведущим нулем
   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
@@ -226,9 +278,10 @@ function getTime() {
 
 //function validation of modal window
 function validation(form) {
-  // Check if currentModal exists before accessing its properties
+  //get modal open
   const currentModal = document.querySelector('.modal.open')
 
+  // Check if currentModal exists before accessing validation
   if (!currentModal) {
     return false
   }
@@ -243,7 +296,7 @@ function validation(form) {
   //value of validation
   let result = true
 
-  // check if the form is 'remove', skip validation
+  // check if the form type is 'remove', skip validation
   if (form.id === 'removeForm') {
     return result
   }
@@ -349,9 +402,9 @@ function validation(form) {
   return result
 }
 
-//func create sort of table
+//function create sort of table
 function sortByKey(array, key) {
-  sortByKey.lastKey = sortByKey.lastKey || null
+  sortByKey.lastKey = sortByKey.lastKey || 'null'
   sortByKey.lastDirection = sortByKey.lastDirection || 1
 
   let sortOrder = 1
@@ -362,9 +415,29 @@ function sortByKey(array, key) {
     //Инвертируем направление для следующей сортировки
     sortByKey.lastDirection *= -1
   } else {
-    //Сбрасываем направление для нового ключа
+    // Если ключи не совпадают, сбрасываем направление и устанавливаем сортировку по возрастанию
+    sortOrder = 1
     sortByKey.lastDirection = 1
   }
+
+  if (key === 'id') {
+    const sortElement = document.getElementById('sort-id')
+    // Проверяем, является ли это первой загрузкой страницы
+    if (sortByKey.lastKey !== 'id' && sortByKey.lastDirection !== 1) {
+      sortOrder = 1 // Устанавливаем sortOrder на 1 для сортировки по возрастанию при первой загрузке
+    } else {
+      sortOrder = sortByKey.lastDirection // Используем текущее направление сортировки
+    }
+    // Удаляем предыдущий класс сортировки, если есть
+    sortElement.classList.remove('ascending', 'descending')
+    // Добавляем новый класс сортировки
+    if (sortOrder === 1 && sortElement) {
+      sortElement.classList.add('ascending')
+    } else if (sortElement) {
+      sortElement.classList.add('descending')
+    }
+  }
+
   // Сохраняем текущий ключ
   sortByKey.lastKey = key
 
@@ -376,21 +449,59 @@ function sortByKey(array, key) {
       const normalizedValueA = typeof valueA === 'string' ? valueA.toUpperCase() : valueA
       const normalizedValueB = typeof valueB === 'string' ? valueB.toUpperCase() : valueB
 
+      // Получаем элемент с id="sort-fullName"
+      const sortName = document.getElementById('sort-fullName')
+      // Удаляем предыдущий класс сортировки, если есть
+      sortName.classList.remove('up', 'bottom')
+      // Добавляем новый класс сортировки
+      if (sortOrder === 1 && sortName) {
+        sortName.classList.add('up')
+      } else if (sortName) {
+        sortName.classList.add('bottom')
+      }
+
       return (normalizedValueA < normalizedValueB ? -1 : (normalizedValueA > normalizedValueB ? 1 : 0)) * sortOrder
-    } else if (key === 'dateTime') {
+    } else if (key === 'dateOfCreation') {
       // Объединяем дату и время в объект Date для сравнения
       const dateTimeA = new Date(a[key])
       const dateTimeB = new Date(b[key])
 
-      return (dateTimeA < dateTimeB ? -1 : (dateTimeA > dateTimeB ? 1 : 0)) * sortOrder;
+      // Получаем элемент с id="sort-creation"
+      const sortCreate = document.getElementById('sort-creation')
+      // Удаляем предыдущий класс сортировки, если есть
+      sortCreate.classList.remove('early', 'later')
+      // Добавляем новый класс сортировки
+      if (sortOrder === 1 && sortCreate) {
+        sortCreate.classList.add('early')
+      } else if (sortCreate) {
+        sortCreate.classList.add('later')
+      }
+
+      return (dateTimeA < dateTimeB ? -1 : (dateTimeA > dateTimeB ? 1 : 0)) * sortOrder
     }
     else {
+      // Получаем элемент с id="sort-changes"
+      const sortChanges = document.getElementById('sort-changes')
+      // Удаляем предыдущий класс сортировки, если есть
+      sortChanges.classList.remove('before', 'after')
+      // Добавляем новый класс сортировки
+      if (sortOrder === 1 && sortChanges) {
+        sortChanges.classList.add('before')
+      } else if (sortChanges) {
+        sortChanges.classList.add('after')
+      }
+
       return (valueA < valueB ? -1 : (valueA > valueB ? 1 : 0)) * sortOrder
     }
   })
 }
 
-//func create of filter 
+function setClientSortInitial(array) {
+  sortByKey(array, 'id') // set default sorting
+  renderClientsTable(array) //render table with clients
+}
+
+//function create of filter 
 function applyFilters() {
   const searchInput = document.getElementById('search')
   // get value from input 
@@ -414,30 +525,79 @@ function applyFilters() {
   renderClientsTable(filteredClients)
 }
 
-//function for adding new client
-function addNewClient() {
+//function create tooltips
+function createTooltips(type, contact, button) {
+  //create tooltip
+  const tooltip = createDiv('tooltip')
+  tooltip.classList.add('hidden')
 
-  //find all inputs
-  let allInputsArray = document.querySelectorAll('.modal__input')
-  let fullName = `${allInputsArray[0].value} ${allInputsArray[1].value} ${allInputsArray[2].value}`
+  //add text - for button remove contact
+  if (button.classList.contains('modal__remove-contact-btn')) {
+    tooltip.classList.add('tooltip-remove')
+    let text = createStrong('tooltip__remove-text', `Remove contact`)
+    tooltip.append(text)
+    button.appendChild(tooltip)
+  } else {
+    //add text for all clients contacts
+    tooltip.title = type.type
+    let textType = createStrong('tooltip__type', `${type.type}:`)
+    let textContact = createStrong('tooltip__contact', `${contact.contact}`)
+    if (type.type === 'Email') {
+      textContact.classList.add('tooltip-email')
+    }
 
-  //find select
-  let selectedContact = document.querySelector('.modal__select')
-  //find all inputs with contacts
+    tooltip.append(textType, textContact)
+    button.appendChild(tooltip)
+  }
+
+  button.addEventListener('mouseover', function () {
+    tooltip.classList.remove('hidden')
+  })
+
+  button.addEventListener('mouseout', function () {
+    tooltip.classList.add('hidden')
+  })
+
+  return tooltip
+}
+
+//function create contacts list witch contains one client contacts
+function createContactsList(array) {
+  const list = createDiv('table__contact-list')
+
+  array.forEach(contact => {
+    //if contact type from contacts array = contact type from client array
+    const contactType = contactsArray.find(item => item.type === contact.type)
+    const clientContact = array.find(item => item.contact === contact.contact)
+
+    if (contactType && contactType.logo) {
+      let button = createButton('table__contact-btn', '')
+      button.innerHTML = contactType.logo.outerHTML
+      createTooltips(contactType, clientContact, button)
+      list.appendChild(button)
+    }
+  })
+
+  return list
+}
+
+//function for adding client contact to array
+function getClientContacts() {
+  // find all inputs with contacts
   let contactsInputArr = document.querySelectorAll('.modal__select-input')
 
   // create new client contacts array
   let newClientContactsArray = []
 
-  // get selected value from the <select>
-  let selectedValue = selectedContact.value
+  // loop through contactsInputArr to create new contacts
+  contactsInputArr.forEach(input => {
+    let selectedContact = input.closest('.modal__select-box').querySelector('.modal__select')
+    let selectedValue = selectedContact.value
 
-  // find the corresponding contact object in contactsArray
-  let selectedContactObject = contactsArray.find(contact => contact.type === selectedValue)
+    // find the corresponding contact object in contactsArray
+    let selectedContactObject = contactsArray.find(contact => contact.type === selectedValue)
 
-  if (selectedContactObject) {
-    // loop through contactsInputArr to create new contacts
-    contactsInputArr.forEach(input => {
+    if (selectedContactObject) {
       let newContact = {
         contact: input.value.trim(),
         type: selectedContactObject.type,
@@ -445,24 +605,36 @@ function addNewClient() {
 
       // add the new contact to the array
       newClientContactsArray.push(newContact)
-      console.log(newContact)
-    })
-
-    // create new client obj
-    let newClientObj = {
-      id: getRandomNumber(1000, 10000),
-      fullName,
-      dateOfCreation: `${getDate()} ${getTime()}`,
-      latestChanges: `${getDate()} ${getTime()}`,
-      contacts: newClientContactsArray,
     }
+  })
+  return newClientContactsArray
+}
 
-    // add to array
-    clientsArray.push(newClientObj)
+//function for adding new client
+function addNewClient() {
+  //find all inputs
+  let allInputsArray = document.querySelectorAll('.modal__input')
+  let fullName = `${allInputsArray[0].value} ${allInputsArray[1].value} ${allInputsArray[2].value}`
 
-    // render table
-    renderClientsTable(clientsArray)
+
+  // create new client obj
+  let newClientObj = {
+    id: getRandomNumber(1000, 10000),
+    fullName,
+    dateOfCreation: `${getDate()} ${getTime()}`,
+    latestChanges: `${getDate()} ${getTime()}`,
+    contacts: getClientContacts(),
   }
+
+  // add to array
+  clientsArray.push(newClientObj)
+
+  // render table
+  renderClientsTable(clientsArray)
+
+  // Clear existing select 
+  const existingSelectBoxes = document.querySelectorAll('.modal__select-box')
+  existingSelectBoxes.forEach(selectBox => selectBox.remove())
 }
 
 //function for edit client data
@@ -471,25 +643,24 @@ function editClientData(id) {
   const clientIndex = clientsArray.findIndex(item => item.id === id);
   //get all inputs and select
   const allInputsArray = document.querySelectorAll('.modal__input')
-  // const selectInput = document.querySelector('.modal__select-input')
 
   if (clientIndex !== -1) {
     //get data from form
     const surname = allInputsArray[0].value.trim()
     const name = allInputsArray[1].value.trim()
     const lastName = allInputsArray[2].value.trim()
-    // const contactType = parseInt(selectInput.value.replace('option', ''), 10)
-    // const contactValue = allInputsArray[3].value.trim()
 
     //update info about client
     clientsArray[clientIndex].fullName = `${surname} ${name} ${lastName}`
     clientsArray[clientIndex].latestChanges = `${getDate()} ${getTime()}`
-    // clientsArray[clientIndex].contacts = [{
-    //   type: contactType,
-    //   placeholder: contactValue,
-    // }]
+    clientsArray[clientIndex].contacts = getClientContacts()
+
     //update table 
     renderClientsTable(clientsArray)
+
+    // Clear existing select 
+    const existingSelectBoxes = document.querySelectorAll('.modal__select-box')
+    existingSelectBoxes.forEach(selectBox => selectBox.remove())
   }
 }
 
@@ -505,6 +676,163 @@ function removeClient(id) {
 
 //function create modal window to edit data of client
 function createModalWindow(subtitle, id, formType, modalName) {
+  // Сохраняем ссылки на созданные элементы .choices
+  const createdSelectElements = []
+
+  //call func which create all conditions for closing modal and reset modal before initial new modal
+  removeModalEventListeners()
+  handleCloseConditions()
+  closeModal()
+  //очищаем массив до создания новых ссылок на элементы .choices
+  createdSelectElements.splice(0, createdSelectElements.length)
+
+  // Функция для добавления обработчика события к элементам .choices
+  function addChoicesEventListener(selectElement) {
+    selectElement.addEventListener('click', function (event) {
+      event.stopPropagation()
+      selectElement.classList.toggle('is-open')
+    });
+
+    // Обработчик события для кликов на всем документе
+    document.addEventListener('click', function (event) {
+      // Проверяем, был ли клик внутри элемента списка выбора или на самом списке
+      if (!event.target.closest('.choices')) {
+        // Удаляем класс 'is-open' у всех элементов '.choices'
+        document.querySelectorAll('.choices').forEach(function (choicesElement) {
+          choicesElement.classList.remove('is-open')
+        })
+      }
+    })
+  }
+
+  //function fill client old data if we have to change data
+  function fillEditForm(i, id, input) {
+    //find current client
+    const currentClient = clientsArray.find(client => client.id === id)
+
+    //fill form
+    if (currentClient) {
+
+      if (input.classList.contains('modal__input')) {
+        //splice full name to name - surname - lastname 
+        const fullName = currentClient.fullName.split(' ')
+        input.value = fullName[i]
+      }
+    }
+  }
+
+  //this func create option for Choose contact of client
+  function createSelectForAddContact() {
+    //get add btn 
+    const addContactBox = document.getElementById('add-contact-box')
+    //create select box
+    const selectBox = createDiv('modal__select-box')
+    //create select
+    const select = document.createElement('select')
+    select.classList.add('modal__select')
+
+    //create option
+    for (let i = 0; i < contactsArray.length; i++) {
+      const { label, value } = contactsArray[i]
+      let option = document.createElement('option')
+      option.label = label
+      option.value = value
+      select.append(option)
+    }
+
+    const selectInput = createInput('modal__select-input', '', '')
+    selectInput.placeholder = 'Enter phone number'
+    selectInput.setAttribute('data-required', 'true')
+    selectInput.name = 'error'
+    selectInput.type = 'tel'
+
+    // // Add event listener to the select element
+    select.addEventListener('change', function () {
+      selectInput.placeholder = '' //clear placeholder if use change
+      // update selected option value
+      let selectedOption = this.value
+
+      // Update selectInput attributes based on the selected option
+      switch (selectedOption) {
+        case 'Phone number':
+          selectInput.type = 'tel'
+          selectInput.placeholder = contactsArray[0].placeholder
+          selectInput.setAttribute('data-max-length', '15')
+          selectInput.setAttribute('data-min-length', '10')
+          selectInput.dataset.type = 'phone'
+          break
+        case 'Additional phone':
+          selectInput.type = 'tel'
+          selectInput.placeholder = contactsArray[1].placeholder
+          selectInput.setAttribute('data-max-length', '15')
+          selectInput.setAttribute('data-min-length', '10')
+          selectInput.dataset.type = 'phone'
+          break
+        case 'Email':
+          selectInput.type = 'email'
+          selectInput.placeholder = contactsArray[2].placeholder
+          selectInput.setAttribute('data-max-length', '25')
+          selectInput.dataset.type = 'email'
+          break
+        case 'Vk':
+          selectInput.type = 'url'
+          selectInput.placeholder = contactsArray[3].placeholder
+          selectInput.dataset.type = 'url'
+          break
+        case 'Facebook':
+          selectInput.type = 'url'
+          selectInput.placeholder = contactsArray[4].placeholder
+          selectInput.dataset.type = 'url'
+          break
+        case 'Other':
+          selectInput.type = 'text'
+          selectInput.placeholder = contactsArray[5].placeholder
+          selectInput.dataset.type = 'text'
+          break
+        default:
+          // Handle default case if needed
+          break
+      }
+    })
+
+    //create btn for removing contact
+    const removeContactBtn = createButton('modal__remove-contact-btn', '') //create btn for cleaning input
+    const removeContactBtnSvg = createSvg("d", 'M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z', "fill", "#B0B0B0", "modal__remove-btn-svg", "12")
+    removeContactBtn.appendChild(removeContactBtnSvg) //add svg to btn
+
+    createTooltips('', '', removeContactBtn)
+
+    removeContactBtn.addEventListener('click', function (event) {
+      event.stopPropagation()
+      event.preventDefault()
+      selectBox.remove()
+    })
+
+    //add select and input to box
+    selectBox.append(select, selectInput, removeContactBtn)
+
+    //add box to modal window
+    addContactBox.append(selectBox)
+
+    // Инициализируем Choices.js для select
+    new Choices(select, {
+      allowHTML: true, // Устанавливаем allowHTML в true
+      shouldSort: false, // Отключаем сортировку
+      placeholder: true, // Включаем плейсхолдер
+      searchEnabled: false, // Отключаем поиск   
+      itemSelectText: "",
+    })
+
+    // Добавляем обработчик события для каждого созданного элемента .choices
+    const selectElements = document.querySelectorAll('.choices')
+    selectElements.forEach(selectElement => {
+      if (!createdSelectElements.includes(selectElement)) {
+        addChoicesEventListener(selectElement)
+        createdSelectElements.push(selectElement)
+      }
+    })
+  }
+
   //this func create inputs for form
   function createFormInputs() {
     //create input components array
@@ -535,7 +863,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
       input.setAttribute('data-max-length', '15') //add max length
       input.setAttribute('data-required', 'true')
 
-      //call func for fill inputs
+      //call func for fill form
       if (formType === 'edit') {
         fillEditForm(i, id, input)
       }
@@ -544,103 +872,9 @@ function createModalWindow(subtitle, id, formType, modalName) {
       form.append(inputBox) //add to form
     }
   }
-  //function fill client old data if we have to change data
-  function fillEditForm(i, id, input) {
-    //find current client
-    const currentClient = clientsArray.find(client => client.id === id)
 
-    //fill form
-    if (currentClient) {
-      //splice full name to name - surname - lastname 
-      const fullName = currentClient.fullName.split(' ')
-      input.value = fullName[i]
-    }
-  }
   //put all buttons to modal window
   function createButtons() {
-    //this func create option for Choose contact of client
-    function createSelectForAddContact() {
-
-      //create select box
-      const selectBox = createDiv('modal__select-box')
-      //create select
-      const select = document.createElement('select')
-      select.classList.add('modal__select')
-
-      const selectInput = createInput('modal__select-input', '', '')
-      selectInput.placeholder = 'Enter phone number'
-      selectInput.type = 'tel'
-      selectInput.setAttribute('data-required', 'true')
-      selectInput.name = 'error'
-
-      //create option
-      for (let i = 0; i < contactsArray.length; i++) {
-        let option = document.createElement('option')
-        option.text = contactsArray[i].type
-        option.value = contactsArray[i].type
-        select.appendChild(option)
-      }
-
-      // Add event listener to the select element
-      select.addEventListener('change', function () {
-        selectInput.placeholder = '' //clear placeholder if use change
-        // update selected option value
-        let selectedOption = this.value
-
-        // Update input attributes based on the selected option
-        switch (selectedOption) {
-          case contactsArray[0].type:
-            selectInput.type = 'tel'
-            selectInput.placeholder = contactsArray[0].placeholder
-            selectInput.setAttribute('data-max-length', '15')
-            selectInput.setAttribute('data-min-length', '10')
-            selectInput.dataset.type = 'phone'
-            break
-          case contactsArray[1].type:
-            selectInput.type = 'tel'
-            selectInput.placeholder = contactsArray[1].placeholder
-            selectInput.setAttribute('data-max-length', '15')
-            selectInput.setAttribute('data-min-length', '10')
-            selectInput.dataset.type = 'phone'
-            break
-          case contactsArray[2].type:
-            selectInput.type = 'email'
-            selectInput.placeholder = contactsArray[2].placeholder
-            selectInput.setAttribute('data-max-length', '25')
-            break
-          case contactsArray[3].type:
-            selectInput.type = 'url'
-            selectInput.placeholder = contactsArray[3].placeholder
-            break
-          case contactsArray[4].type:
-            selectInput.type = 'url'
-            selectInput.placeholder = contactsArray[4].placeholder
-            break
-          default:
-            // Handle default case if needed
-            break
-        }
-      })
-
-      //create btn for removing contact
-      const removeContactBtn = createButton('modal__remove-contact-btn', '') //create btn for cleaning input
-      const removeContactBtnSvg = createSvg("d", 'M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z', "fill", "#B0B0B0", "modal__remove-btn-svg", "12")
-      removeContactBtn.appendChild(removeContactBtnSvg) //add svg to btn
-      removeContactBtn.addEventListener('click', function (event) {
-        event.stopPropagation()
-        event.preventDefault()
-        selectBox.remove()
-        if (addContactBtn.classList.contains('modal__hidden-btn')) {
-          addContactBtn.classList.remove('modal__hidden-btn')
-        }
-      })
-
-      //add select and input to box
-      selectBox.append(select, selectInput, removeContactBtn)
-      //add box to modal window
-      addBtnBox.append(selectBox)
-    }
-
     //create container for btn-s
     const addBtnBox = createDiv('modal__add-contact-box')
     addBtnBox.id = 'add-contact-box'
@@ -652,26 +886,6 @@ function createModalWindow(subtitle, id, formType, modalName) {
     const addContactBtn = createButton('modal__add-contact-btn', 'Add contact') //create btn add contact
     addContactBtn.id = 'add-contact'
     addContactBtn.appendChild(addContactBtnSvg) //add svg to btn
-    addContactBtn.addEventListener('click', function (event) {
-      event.stopPropagation()
-      event.preventDefault()
-      //create max count of contacts
-      const maxContacts = 9
-      let inputsArr = document.querySelectorAll('.modal__select-input')
-
-      if (inputsArr.length === maxContacts) {
-        addContactBtn.classList.add('modal__hidden-btn')
-      } else {
-        // call func for choosing add contact to form
-        createSelectForAddContact()
-        const parent = this.parentNode
-        if (parent.classList.contains('error')) {
-          parent.classList.remove('error')
-          parent.querySelector('.error-label-box').remove()
-          addContactBtn.classList.remove('input-error')
-        }
-      }
-    })
 
     //add select contacts to box
     addBtnBox.append(addContactBtn)
@@ -693,10 +907,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
       saveOrRemoveBtn.classList.add('modal__delete-btn')
       removeOrCancelBtn.classList.remove('modal__remove-btn')
       removeOrCancelBtn.classList.add('modal__cancel-btn')
-      removeOrCancelBtn.addEventListener('click', function () {
-        //call func for close window 
-        closeModal()
-      })
+      removeOrCancelBtn.addEventListener('click', closeModal)
     }
     else if (formType === 'edit') {
       removeOrCancelBtn.textContent = 'Remove client'
@@ -707,20 +918,32 @@ function createModalWindow(subtitle, id, formType, modalName) {
         closeModal()
       })
     } else if (formType === 'add') {
-      removeOrCancelBtn.addEventListener('click', function () {
-        //call func for close window 
-        closeModal()
-      })
+      removeOrCancelBtn.addEventListener('click', closeModal)
     }
 
     //add btn-s to form
     form.append(addBtnBox, saveOrRemoveBtn, removeOrCancelBtn)
-  }
-  //close modal before initial
-  closeModal()
 
-  //call func which create all conditions for closing modal and reset modal before initial
-  handleCloseConditions()
+    addContactBtn.addEventListener('click', function (event) {
+      event.preventDefault()
+      //create max count of contacts
+      const maxContacts = 9
+      let inputsArr = document.querySelectorAll('.modal__select-input')
+
+      if (inputsArr.length === maxContacts) {
+        addContactBtn.classList.add('modal__hidden-btn')
+      } else {
+        // call func for choosing add contact to form
+        createSelectForAddContact()
+        const parent = this.parentNode
+        if (parent.classList.contains('error')) {
+          parent.classList.remove('error')
+          parent.querySelector('.error-label-box').remove()
+          addContactBtn.classList.remove('input-error')
+        }
+      }
+    })
+  }
 
   //create form box
   const modalBox = createDiv('modal')
@@ -731,9 +954,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
     boxShadowOfBody.classList.add('shadow-on')
   }
   //Предотвращаем всплытие события, чтобы при клике в модальном окне не срабатывало закрытие окна 
-  modalBox.addEventListener('click', function (event) {
-    event.stopPropagation()
-  })
+  modalBox.addEventListener('click', stopPropagation)
   //call func for closing window if user click esc
   window.addEventListener('keydown', handleKeyPress)
 
@@ -803,19 +1024,6 @@ function createModalWindow(subtitle, id, formType, modalName) {
   //add form to container
   boxShadowOfBody.append(modalBox)
   return modalBox
-}
-
-//function close modal window 
-function closeModal() {
-  //remove all event 
-  removeEventListeners()
-  if (currentModal) {
-    boxShadowOfBody.classList.add('close')
-    boxShadowOfBody.classList.remove('shadow-on')
-    currentModal.classList.remove('open')
-    currentModal.remove()
-    currentModal = null
-  }
 }
 
 //function create header elements
@@ -932,7 +1140,7 @@ function createTableHeader() {
 }
 
 //function create client at table
-function createClientAtTable(id, fullName, array, contacts) {
+function createClientAtTable(id, fullName, array, contactsArr) {
   const li = document.createElement('li') //create li 
   li.classList.add('table__list-item')
   // split from array to date and time
@@ -943,7 +1151,7 @@ function createClientAtTable(id, fullName, array, contacts) {
   function createAction() {
     const action = createDiv('table__client-action') //create container for action btns
 
-    const buttonEdit = createButton('table__client-action-btn', 'Edit') //create btn edit
+    const buttonEdit = createButton('table__client-edit-btn', 'Edit') //create btn edit
     const svgEditBtn = createSvg("d", "M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5ZM13.8067 4.69329C14.0667 4.43329 14.0667 4.01329 13.8067 3.75329L12.2467 2.19329C11.9867 1.93329 11.5667 1.93329 11.3067 2.19329L10.0867 3.41329L12.5867 5.91329L13.8067 4.69329Z", "fill", "#9873FF", "table__actions-svg", "16")
     buttonEdit.appendChild(svgEditBtn)
 
@@ -952,7 +1160,7 @@ function createClientAtTable(id, fullName, array, contacts) {
       createModalWindow(`Change the data`, id, 'edit', 'modalEdit') //call func pop up window for editing    
     })
 
-    const buttonRemove = createButton('table__client-action-btn', 'Remove') //create btn remove
+    const buttonRemove = createButton('table__client-remove-btn', 'Remove') //create btn remove
     const svgRemoveBtn = createSvg("d", "M8 2C4.682 2 2 4.682 2 8C2 11.318 4.682 14 8 14C11.318 14 14 11.318 14 8C14 4.682 11.318 2 8 2ZM8 12.8C5.354 12.8 3.2 10.646 3.2 8C3.2 5.354 5.354 3.2 8 3.2C10.646 3.2 12.8 5.354 12.8 8C12.8 10.646 10.646 12.8 8 12.8ZM10.154 5L8 7.154L5.846 5L5 5.846L7.154 8L5 10.154L5.846 11L8 8.846L10.154 11L11 10.154L8.846 8L11 5.846L10.154 5Z", "fill", "#F06A4D", "table__actions-svg", "16")
     buttonRemove.append(svgRemoveBtn)
 
@@ -964,7 +1172,6 @@ function createClientAtTable(id, fullName, array, contacts) {
     return action
   }
 
-
   let number = createButton('table__client-id', id)
   let clientName = createButton('table__client-text', fullName)
   let dateOfCreating = createButton('table__client-text', date)
@@ -975,9 +1182,9 @@ function createClientAtTable(id, fullName, array, contacts) {
   let timeLastChanges = createParagraph('table__last-changes-time', lastTime)
   lastChangesElement.append(timeLastChanges)
 
-  let contact = createButton('table__client-text', contacts)
+  let clientContacts = createContactsList(contactsArr)
 
-  li.append(number, clientName, dateOfCreating, lastChangesElement, contact, createAction())
+  li.append(number, clientName, dateOfCreating, lastChangesElement, clientContacts, createAction())
   return li
 }
 
@@ -1028,7 +1235,7 @@ function renderDom() {
   container.append(title) //add title 
   createTableHeader() //create table with buttons
   renderClientsTable(clientsArray) //render table with clients
+  setClientSortInitial(clientsArray) //set table sort inherit
 }
 
 renderDom()
-
