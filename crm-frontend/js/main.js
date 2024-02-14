@@ -402,6 +402,22 @@ function validation(form) {
   return result
 }
 
+//function create autocomplete list
+function renderAutocomplete(clients, searchInput) {
+  const autocompleteList = document.querySelector('.autocomplete-list')
+  autocompleteList.innerHTML = ''
+ 
+  clients.forEach(client => {
+    const autocompleteFullName = createButton('autocomplete-fullName', client.fullName)
+    autocompleteFullName.addEventListener('click', function () {
+      searchInput.value = client.fullName
+      autocompleteList.innerHTML = ''
+      autocompleteList.classList.remove('active')
+    })
+    autocompleteList.appendChild(autocompleteFullName)
+  })
+}
+
 //function create sort of table
 function sortByKey(array, key) {
   sortByKey.lastKey = sortByKey.lastKey || 'null'
@@ -496,6 +512,7 @@ function sortByKey(array, key) {
   })
 }
 
+//function set initial value for clients list by id
 function setClientSortInitial(array) {
   sortByKey(array, 'id') // set default sorting
   renderClientsTable(array) //render table with clients
@@ -691,14 +708,14 @@ function createModalWindow(subtitle, id, formType, modalName) {
     selectElement.addEventListener('click', function (event) {
       event.stopPropagation()
       selectElement.classList.toggle('is-open')
-    });
+    })
 
     // Обработчик события для кликов на всем документе
     document.addEventListener('click', function (event) {
       // Проверяем, был ли клик внутри элемента списка выбора или на самом списке
       if (!event.target.closest('.choices')) {
         // Удаляем класс 'is-open' у всех элементов '.choices'
-        document.querySelectorAll('.choices').forEach(function (choicesElement) {
+        document.querySelectorAll('choices.is-open').forEach(function (choicesElement) {
           choicesElement.classList.remove('is-open')
         })
       }
@@ -1028,6 +1045,11 @@ function createModalWindow(subtitle, id, formType, modalName) {
 
 //function create header elements
 function createHeader() {
+  // create element autocomplete list
+  const autocompleteList = createDiv('autocomplete-list')
+  headerContainer.appendChild(autocompleteList)
+
+  //create header elements
   const logoLink = createLink('header__logo-link', '', './index.html') //create link
   const image = document.createElement('img') //create img
   image.src = './img/logoskb.png'
@@ -1037,7 +1059,30 @@ function createHeader() {
   const inputBox = createDiv('header__input-box') //create input box
   const input = createInput('header__input', 'Enter your request', 'text') //create input
   input.id = 'search'
-  input.addEventListener('input', applyFilters)
+  input.addEventListener('input', function (event) {
+    if(autocompleteList) {
+      autocompleteList.classList.add('active')
+    }
+    const searchTerm = this.value.toLowerCase()
+    const clientsNames = clientsArray.filter(client => client.fullName.toLowerCase().startsWith(searchTerm))
+    applyFilters() //add filters for searching
+    renderAutocomplete(clientsNames, event.target) //add autocomplete
+
+    // Clear autocomplete list if search term is empty
+    if (!searchTerm.trim()) {
+      const autocompleteList = document.querySelector('.autocomplete-list')
+      autocompleteList.innerHTML = ''
+      autocompleteList.classList.remove('active')
+    }
+  })
+  //remove autocomplete block is user click at document
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.autocomplete-list.active') && !event.target.closest('.header__input')) {
+      autocompleteList.innerHTML = ''
+      autocompleteList.classList.remove('active')
+    }
+  })
+
   inputBox.append(input)
 
   headerContainer.append(logoLink, inputBox)

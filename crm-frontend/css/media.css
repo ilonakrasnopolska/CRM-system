@@ -6,12 +6,22 @@
 }
 
 @media(max-width: 670px) {
-  .header{
+  .header {
     display: flex;
   }
-  
+
   .header__input {
     width: 100%;
+  }
+
+  .autocomplete-list {
+    width: 150px;
+    left: 46%;
+    bottom: -57px;
+  }
+
+  .autocomplete-fullName {
+    font-size: 12px;
   }
 
   .modal {
@@ -25,14 +35,14 @@
   }
 
   .modal__input-box {
-    width: 300px; 
+    width: 300px;
   }
 
   .modal__buttons {
     width: 300px;
   }
 
-  .modal__select  {
+  .modal__select {
     padding: 0 5px;
   }
 }
@@ -41,14 +51,29 @@
   .modal {
     left: 15%;
   }
+
+  .autocomplete-list {
+    left: 45%;
+  }
+}
+
+@media(max-width: 390px) {
+  .modal {
+    left: 7%;
+  }
+
+  .autocomplete-list {
+    left: 42%;
+  }
 }
 
 @media(max-width: 330px) {
-  .header__input-box {
+  .header__input-box,
+  .autocomplete-list {
     display: none;
   }
 
   .modal {
-    left: 5%;
+    left: 3%;
   }
 }

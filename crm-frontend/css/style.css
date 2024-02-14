@@ -93,6 +93,7 @@ button {
 }
 
 .header {
+  position: relative;
   height: 90px;
   background-color: var(--white);
   box-shadow: 0px 3px 8px 0px var(--medium-grey);
@@ -110,6 +111,10 @@ button {
 .header__logo-link {
   min-width: 50px;
   min-height: 50px;
+}
+
+.header__input-box {
+  z-index: 20;
 }
 
 .header__input {
@@ -822,4 +827,42 @@ div#modalRemove {
 
 .tooltip.hidden {
   transform: scale(0);
+}
+
+/* autocomplete list */
+
+.autocomplete-list {
+  position: absolute;
+  display: none;
+  bottom: -73px;
+  left: 100px;
+  padding: 10px 30px;
+  background-color: rgba(200, 197, 209, 0.4);
+  width: 580px;
+  border: 1px solid #33333333;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.autocomplete-list.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-fullName {
+  background-color: transparent;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: start;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  transition: background-color .3s ease-out, color .3s ease-out;
+}
+
+.autocomplete-fullName:hover {
+  background-color: rgba(200, 197, 209, 0.8);
+  color: var(--purple);
 }
