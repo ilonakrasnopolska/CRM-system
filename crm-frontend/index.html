@@ -22,10 +22,20 @@
     <main class="content">
       <section class="section">
         <div class="container" id="container"></div>
+        <div class="table-box" id="table-box"></div>
       </section>
     </main>
   <script defer src="./js/choices.min.js"></script>
   <script defer src="./js/main.js"></script>
+  <script>
+     document.addEventListener('DOMContentLoaded', function () {
+      createHeader()
+      createTableHeader()
+    })
+    document.addEventListener('DOMContentLoaded', function () {
+      renderDom()
+    })
+  </script>
 </body>
 
 </html>

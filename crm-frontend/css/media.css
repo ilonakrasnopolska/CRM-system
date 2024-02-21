@@ -3,6 +3,34 @@
     right: 25%;
     left: 25%;
   }
+
+  .table__sort {
+    gap: 40px;
+  }
+
+  .table__list-item {
+    gap: 40px;
+  }
+
+  .table__client-action {
+    width: 145px;
+  }
+
+  .table__client-text {
+    width: 128px;
+  }
+
+  #contacts, #actions {
+    width: 90px;
+  }
+
+  #sort-creation, #sort-changes {
+    width: 150px;
+  }
+
+  .table__contact-list {
+    width: 75px;
+  }
 }
 
 @media(max-width: 670px) {
@@ -12,12 +40,6 @@
 
   .header__input {
     width: 100%;
-  }
-
-  .autocomplete-list {
-    width: 150px;
-    left: 46%;
-    bottom: -57px;
   }
 
   .autocomplete-fullName {
@@ -45,15 +67,19 @@
   .modal__select {
     padding: 0 5px;
   }
+
+  .table__sort {
+    gap: 30px;
+  }
+
+  .table__list-item {
+    gap: 30px;
+  }
 }
 
 @media(max-width: 520px) {
   .modal {
     left: 15%;
-  }
-
-  .autocomplete-list {
-    left: 45%;
   }
 }
 
@@ -61,15 +87,12 @@
   .modal {
     left: 7%;
   }
-
-  .autocomplete-list {
-    left: 42%;
-  }
 }
 
 @media(max-width: 330px) {
+
   .header__input-box,
-  .autocomplete-list {
+  .autocomplete-list.active {
     display: none;
   }
 

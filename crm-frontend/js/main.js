@@ -1,16 +1,28 @@
+// global variables
+
+//get url from server
+const SERVER_URI = 'http://localhost:3000/api/clients'
 const headerContainer = document.getElementById('header-container') //get header container
 const container = document.getElementById('container') //get container
 const boxShadowOfBody = document.getElementById('box-shadow') //get div for shadow
+const animationLoader = createDiv('loader') //create animation block
+animationLoader.id = 'loader'
 
-const tableBox = createDiv('table')
-const clientsList = document.createElement('ul') //create table
+
+const tableBox = document.getElementById('table-box') //create all table box
+const table = createDiv('table') //create table
+const clientsList = document.createElement('ul') //create ul
 clientsList.classList.add('table__list') //add class name to table
-const addButton = createButton('add__button', 'Add client') //create button add client
+const addButton = createButton('add__button-disabled', 'Add client') //create button add client
 
 //current status of modal window 
 let currentModal = null
+//current obj id status from server
+let currentServerObjID = null
+//current status of animation for clients list
+let animationPlayed = false
 
-//create contacts components array
+//create contacts data array
 let contactsArray = [
   {
     value: 'Phone number',
@@ -57,39 +69,117 @@ let contactsArray = [
 ]
 
 //create clients array
-let clientsArray = [
-  {
-    id: getRandomNumber(1000, 10000),
-    fullName: 'Ilona Sue Kras',
-    dateOfCreation: `${getDate()} ${getTime()}`,
-    latestChanges: `${getDate()} ${getTime()}`,
-    contacts: newClientContactsArray = [
-      {
-        contact: '6785899',
-        type: 'Phone number'
-      }
-    ],
-  },
-  {
-    id: getRandomNumber(1000, 10000),
-    fullName: 'Ilona Sue Kras',
-    dateOfCreation: `${getDate()} ${getTime()}`,
-    latestChanges: `${getDate()} ${getTime()}`,
-    contacts: newClientContactsArray = [
-      {
-        contact: '6785899',
-        type: 'Phone number'
-      },
-      {
-        contact: 'fdhfjh@fhdjfh',
-        type: 'Email',
-      }
-    ],
-  }
-]
+let clientsArray = []
 
-function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+// func's for work with server
+
+//function get clients from server
+async function getServerData() {
+  const response = await fetch(SERVER_URI, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  const data = await response.json()
+
+  return data
+}
+
+//function get client
+async function getServerDataByID(id) {
+  const response = await fetch(`${SERVER_URI}/${id}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  const data = await response.json()
+
+  return data
+}
+
+//function add clients to server
+async function addServerData(obj) {
+  const response = await fetch(SERVER_URI, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(obj),
+  })
+
+  const data = await response.json()
+  return data
+}
+
+//function delete clients from server
+async function deleteObjFromServer(id) {
+  const response = await fetch(`${SERVER_URI}/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  const data = await response.json()
+  return data
+}
+
+//function for change client data
+async function changeServerData(id, obj) {
+
+  const response = await fetch(`${SERVER_URI}/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'aplication.json' },
+    body: JSON.stringify(obj)
+  })
+  const data = await response.json()
+
+  return data
+}
+
+//function load students and render
+async function getClientsAndRender() {
+  addButton.disabled = true
+  animationLoading(animationLoader) // Показываем анимацию загрузки
+
+  try {
+    let serverData = await getServerData()
+
+    if (serverData) {
+      clientsArray = serverData //update array of clients
+      renderClientsTable(clientsArray) //render 
+    }
+  } catch (error) {
+    console.error('Error fetching clients:', error)
+  } finally {
+    // Скрываем анимацию загрузки после получения данных (или в случае ошибки)
+    animationLoader.style.display = 'none'
+    addButton.disabled = false
+    addButton.classList.add('add__button')
+    addButton.classList.remove('add__button-disabled')
+  }
+}
+
+//function for animation loading 
+async function animationLoading(loader) {
+  // Покажите анимацию перед отправкой запроса
+  loader.style.display = 'flex'
+
+  try {
+    // Отправьте запрос на сервер
+    const response = await fetch('http://localhost:3000/api/clients')
+    const data = await response.json()
+
+    loader.classList.add('fade-out')
+    // Скрыть анимацию после получения ответа
+    loader.addEventListener('animationend', function () {
+      loader.style.display = 'none'
+      loader.classList.remove('fade-out')
+    }, { once: true })
+
+    return data
+  } catch (error) {
+    // Обработайте ошибку
+    console.error('Error:', error)
+    // Скрыть анимацию в случае ошибки
+    loader.style.display = 'none'
+    return null
+  }
 }
 
 //function create element div
@@ -185,6 +275,18 @@ function createSvg(attribute, coordinates, fill, color, className, size) {
   return svg
 }
 
+//function create animation
+function createAnimation(loader, className, id) {
+  const loaderElement = createDiv(className)
+  loaderElement.id = id
+  loader.appendChild(loaderElement)
+}
+
+//function for combines from array name/surname to full name 
+function getFullName(client) {
+  return `${client.name} ${client.surname} ${client.lastName}`
+}
+
 // if user click to ESC when modal is open
 function handleKeyPress(e) {
   if (e.key === 'Escape') {
@@ -192,7 +294,7 @@ function handleKeyPress(e) {
   }
 }
 
-//func stop propagation
+//function stop propagation
 function stopPropagation(event) {
   event.stopPropagation()
 }
@@ -200,11 +302,17 @@ function stopPropagation(event) {
 //function close modal window 
 function closeModal() {
   if (currentModal) {
-    boxShadowOfBody.classList.add('close')
-    boxShadowOfBody.classList.remove('shadow-on')
-    currentModal.classList.remove('open')
-    currentModal.remove()
-    currentModal = null
+    currentModal.classList.add('close-modal') // добавляем класс анимации закрытия
+    setTimeout(() => {
+      if (currentModal) {
+        boxShadowOfBody.classList.add('close')
+        boxShadowOfBody.classList.remove('shadow-on')
+        currentModal.classList.remove('close-modal')
+        currentModal.remove() // удаляем модальное окно после завершения анимации
+        boxShadowOfBody.classList.remove('close')
+        currentModal = null
+      }
+    }, 300) // время анимации в миллисекундах
   }
 }
 
@@ -244,36 +352,6 @@ function removeModalEventListeners() {
       })
     }
   }
-}
-
-//function create date - for date of creation and latest changes 
-function getDate() {
-  //get current date
-  const currentDate = new Date()
-
-  // get year
-  const year = currentDate.getFullYear()
-  // Месяц с ведущим нулем
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-  // День с ведущим нулем
-  const day = currentDate.getDate().toString().padStart(2, '0')
-
-  const date = `${day}.${month}.${year}`
-  return date
-}
-
-//function create time - for date of creation and latest changes 
-function getTime() {
-  //get current date
-  const currentDate = new Date()
-
-  // Часы с ведущим нулем
-  const hours = currentDate.getHours().toString().padStart(2, '0')
-  // Минуты с ведущим нулем
-  const minutes = currentDate.getMinutes().toString().padStart(2, '0')
-
-  const time = `${hours}:${minutes}`
-  return time
 }
 
 //function validation of modal window
@@ -402,19 +480,39 @@ function validation(form) {
   return result
 }
 
+//function formate date and time for document
+function formatDate(dateString) {
+  const date = new Date(dateString)
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
+function formatTime(timeString) {
+  if (!timeString) return ''
+
+  const [hours, minutes] = timeString.split(':').slice(0, 2) // Отрезаем секунды и миллисекунды
+  return `${hours}:${minutes}`
+}
+
 //function create autocomplete list
 function renderAutocomplete(clients, searchInput) {
   const autocompleteList = document.querySelector('.autocomplete-list')
   autocompleteList.innerHTML = ''
- 
+
   clients.forEach(client => {
-    const autocompleteFullName = createButton('autocomplete-fullName', client.fullName)
+    const autocompleteFullName = createButton('autocomplete-fullName', getFullName(client))
     autocompleteFullName.addEventListener('click', function () {
-      searchInput.value = client.fullName
+      searchInput.value = getFullName(client)
+      applyFilters() //add filters for searching
       autocompleteList.innerHTML = ''
       autocompleteList.classList.remove('active')
     })
+
     autocompleteList.appendChild(autocompleteFullName)
+
   })
 }
 
@@ -458,8 +556,8 @@ function sortByKey(array, key) {
   sortByKey.lastKey = key
 
   return array.sort((a, b) => {
-    const valueA = a[key]
-    const valueB = b[key]
+    const valueA = `${a.name} ${a.surname} ${a.lastName}`
+    const valueB = `${b.name} ${b.surname} ${b.lastName}`
 
     if (key === 'fullName') {
       const normalizedValueA = typeof valueA === 'string' ? valueA.toUpperCase() : valueA
@@ -477,7 +575,7 @@ function sortByKey(array, key) {
       }
 
       return (normalizedValueA < normalizedValueB ? -1 : (normalizedValueA > normalizedValueB ? 1 : 0)) * sortOrder
-    } else if (key === 'dateOfCreation') {
+    } else if (key === 'createdAt') {
       // Объединяем дату и время в объект Date для сравнения
       const dateTimeA = new Date(a[key])
       const dateTimeB = new Date(b[key])
@@ -514,6 +612,7 @@ function sortByKey(array, key) {
 
 //function set initial value for clients list by id
 function setClientSortInitial(array) {
+  renderClientsTable(array) //render table with clients
   sortByKey(array, 'id') // set default sorting
   renderClientsTable(array) //render table with clients
 }
@@ -527,7 +626,7 @@ function applyFilters() {
   // filter array of clients 
   const filteredClients = clientsArray.filter(client => {
     //Приводим значения к нижнему регистру для регистронезависимого сравнения
-    const fullName = client.fullName.toLowerCase()
+    const fullName = getFullName(client).toLowerCase()
     const id = String(client.id).toLowerCase()
 
     //Проверяем совпадение по id и имени
@@ -558,7 +657,7 @@ function createTooltips(type, contact, button) {
     //add text for all clients contacts
     tooltip.title = type.type
     let textType = createStrong('tooltip__type', `${type.type}:`)
-    let textContact = createStrong('tooltip__contact', `${contact.contact}`)
+    let textContact = createStrong('tooltip__contact', `${contact.value}`)
     if (type.type === 'Email') {
       textContact.classList.add('tooltip-email')
     }
@@ -585,7 +684,7 @@ function createContactsList(array) {
   array.forEach(contact => {
     //if contact type from contacts array = contact type from client array
     const contactType = contactsArray.find(item => item.type === contact.type)
-    const clientContact = array.find(item => item.contact === contact.contact)
+    const clientContact = array.find(item => item.value === contact.value)
 
     if (contactType && contactType.logo) {
       let button = createButton('table__contact-btn', '')
@@ -616,7 +715,7 @@ function getClientContacts() {
 
     if (selectedContactObject) {
       let newContact = {
-        contact: input.value.trim(),
+        value: input.value.trim(),
         type: selectedContactObject.type,
       }
 
@@ -628,34 +727,62 @@ function getClientContacts() {
 }
 
 //function for adding new client
-function addNewClient() {
+async function addNewClient() {
+  //get animation element 
+  const btnLoader = document.getElementById('btn-loader')
+  //show animation after click at button
+  btnLoader.style.display = 'block'
+
+  //get close button
+  const closeBtn = document.getElementById('close-modal-btn')
+  closeBtn.disabled = true // Disable the close button
+
+  //get cancel btn 
+  const cancelBtn = document.querySelector('.modal__remove-btn')
+  cancelBtn.disabled = true //disabled the cancel btn
+
+
   //find all inputs
   let allInputsArray = document.querySelectorAll('.modal__input')
-  let fullName = `${allInputsArray[0].value} ${allInputsArray[1].value} ${allInputsArray[2].value}`
-
 
   // create new client obj
   let newClientObj = {
-    id: getRandomNumber(1000, 10000),
-    fullName,
-    dateOfCreation: `${getDate()} ${getTime()}`,
-    latestChanges: `${getDate()} ${getTime()}`,
+    name: allInputsArray[0].value,
+    surname: allInputsArray[1].value,
+    lastName: allInputsArray[2].value,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     contacts: getClientContacts(),
   }
 
-  // add to array
-  clientsArray.push(newClientObj)
+  // send data to server
+  try {
+    let serverDataObj = await addServerData(newClientObj) //add client to server
+    clientsArray.push(serverDataObj) //add obj to array
+    renderClientsTable(clientsArray) //render table
+    //remove modal with delay
+    setTimeout(() => {
+      closeModal()
+    }, 100) //delay in milliseconds
 
-  // render table
-  renderClientsTable(clientsArray)
-
-  // Clear existing select 
-  const existingSelectBoxes = document.querySelectorAll('.modal__select-box')
-  existingSelectBoxes.forEach(selectBox => selectBox.remove())
+    // hide animation after rendering
+    btnLoader.style.display = 'none'
+    closeBtn.disabled = false
+    cancelBtn.disabled = false
+  } catch (error) {
+    // hide animation if mistake
+    btnLoader.style.display = 'none'
+    closeBtn.disabled = false
+    cancelBtn.disabled = false
+  }
 }
 
 //function for edit client data
-function editClientData(id) {
+async function editClientData(id) {
+  //get close button
+  const closeBtn = document.getElementById('close-modal-btn')
+  closeBtn.disabled = true // Disable the close button
+
   //find index by id
   const clientIndex = clientsArray.findIndex(item => item.id === id);
   //get all inputs and select
@@ -668,26 +795,72 @@ function editClientData(id) {
     const lastName = allInputsArray[2].value.trim()
 
     //update info about client
-    clientsArray[clientIndex].fullName = `${surname} ${name} ${lastName}`
-    clientsArray[clientIndex].latestChanges = `${getDate()} ${getTime()}`
+    clientsArray[clientIndex].name = name
+    clientsArray[clientIndex].surname = surname
+    clientsArray[clientIndex].lastName = lastName
+    clientsArray[clientIndex].updatedAt = new Date().toISOString()
     clientsArray[clientIndex].contacts = getClientContacts()
 
-    //update table 
-    renderClientsTable(clientsArray)
+    // create obj with new data
+    const updatedClientData = {
+      name,
+      surname,
+      lastName,
+      updatedAt: clientsArray[clientIndex].updatedAt,
+      contacts: clientsArray[clientIndex].contacts
+    }
 
-    // Clear existing select 
-    const existingSelectBoxes = document.querySelectorAll('.modal__select-box')
-    existingSelectBoxes.forEach(selectBox => selectBox.remove())
+    // send data to server
+    try {
+
+      //send new data to server
+      await changeServerData(id, updatedClientData)
+      //update table 
+      renderClientsTable(clientsArray)
+      //remove modal with delay
+      setTimeout(() => {
+        closeModal()
+      }, 100) //delay in milliseconds
+
+      // hide animation after rendering
+      closeBtn.disabled = false
+    } catch (error) {
+      // hide animation if mistake
+      closeBtn.disabled = false
+    }
   }
 }
 
 //function for removing client
-function removeClient(id) {
+async function removeClient(id) {
+  const removeBtn = document.getElementById(`remove-btn${id}`)
+
+  const btnLoader = removeBtn.querySelector('.animated-btn')
+  btnLoader.style.display = 'block'
+
+  const svg = removeBtn.querySelector('.table__actions-svg')
+  svg.style.display = 'none' // hide SVG
+
   const indexToRemove = clientsArray.findIndex(item => item.id === id)
 
   if (indexToRemove !== -1) {
-    clientsArray.splice(indexToRemove, 1)
-    renderClientsTable(clientsArray)
+
+    // send data to server
+    try {
+      //remove from server 
+      await deleteObjFromServer(id)
+      //remove from array
+      clientsArray.splice(indexToRemove, 1)
+      //render 
+      renderClientsTable(clientsArray)
+      // hide animation after rendering
+      btnLoader.style.display = 'none'
+      svg.style.display = 'block'
+    } catch (error) {
+      // hide animation if mistake
+      btnLoader.style.display = 'none'
+      svg.style.display = 'block' 
+    }
   }
 }
 
@@ -731,9 +904,13 @@ function createModalWindow(subtitle, id, formType, modalName) {
     if (currentClient) {
 
       if (input.classList.contains('modal__input')) {
-        //splice full name to name - surname - lastname 
-        const fullName = currentClient.fullName.split(' ')
-        input.value = fullName[i]
+        if (i === 0) {
+          input.value = currentClient.name
+        } else if (i === 1) {
+          input.value = currentClient.surname
+        } else if (i === 2) {
+          input.value = currentClient.lastName
+        }
       }
     }
   }
@@ -911,6 +1088,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
     const saveOrRemoveBtn = createButton('modal__save-btn', 'Save')
     saveOrRemoveBtn.id = 'save-btn'
     saveOrRemoveBtn.type = 'submit'
+    createAnimation(saveOrRemoveBtn, 'action-btn-loader', 'btn-loader')
 
     //create remove btn
     const removeOrCancelBtn = createButton('modal__remove-btn', 'Cancel')
@@ -929,10 +1107,10 @@ function createModalWindow(subtitle, id, formType, modalName) {
     else if (formType === 'edit') {
       removeOrCancelBtn.textContent = 'Remove client'
       removeOrCancelBtn.addEventListener('click', function () {
-        //call func for removing client 
-        removeClient(id)
-        //call func for close window 
-        closeModal()
+        closeModal() // close current modal
+        setTimeout(() => { // Добавить небольшую задержку перед созданием нового окна
+          createModalWindow('Remove a client', id, 'remove', 'modalRemove') // create new modal window
+        }, 500) // Задержка в миллисекундах
       })
     } else if (formType === 'add') {
       removeOrCancelBtn.addEventListener('click', closeModal)
@@ -993,8 +1171,8 @@ function createModalWindow(subtitle, id, formType, modalName) {
 
     //call func for removing client if form type = remove
     if (formType === 'remove') {
-      removeClient(id)
       closeModal()
+      removeClient(id)
     }
 
     //call validation
@@ -1017,6 +1195,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
   //create close button
   const closeBtn = createButton('modal__close-button', '')
   closeBtn.type = 'button'
+  closeBtn.id = 'close-modal-btn'
   closeBtn.addEventListener('click', closeModal)
 
   //append all
@@ -1045,10 +1224,6 @@ function createModalWindow(subtitle, id, formType, modalName) {
 
 //function create header elements
 function createHeader() {
-  // create element autocomplete list
-  const autocompleteList = createDiv('autocomplete-list')
-  headerContainer.appendChild(autocompleteList)
-
   //create header elements
   const logoLink = createLink('header__logo-link', '', './index.html') //create link
   const image = document.createElement('img') //create img
@@ -1056,15 +1231,21 @@ function createHeader() {
   image.alt = 'Logo'
   logoLink.append(image)
 
-  const inputBox = createDiv('header__input-box') //create input box
+  //create input box
+  const inputBox = createDiv('header__input-box')
   const input = createInput('header__input', 'Enter your request', 'text') //create input
   input.id = 'search'
+
+  // create element autocomplete list
+  const autocompleteList = createDiv('autocomplete-list')
+  inputBox.appendChild(autocompleteList)
+
   input.addEventListener('input', function (event) {
-    if(autocompleteList) {
+    if (autocompleteList) {
       autocompleteList.classList.add('active')
     }
     const searchTerm = this.value.toLowerCase()
-    const clientsNames = clientsArray.filter(client => client.fullName.toLowerCase().startsWith(searchTerm))
+    const clientsNames = clientsArray.filter(client => getFullName(client).toLowerCase().startsWith(searchTerm))
     applyFilters() //add filters for searching
     renderAutocomplete(clientsNames, event.target) //add autocomplete
 
@@ -1119,7 +1300,7 @@ function createTableHeader() {
       fill: 'fill',
       color: '#9873FF',
       id: 'sort-creation',
-      key: 'dateOfCreation',
+      key: 'createdAt',
     },
     {
       name: 'Latest changes',
@@ -1128,7 +1309,7 @@ function createTableHeader() {
       fill: 'fill',
       color: '#9873FF',
       id: 'sort-changes',
-      key: 'latestChanges',
+      key: 'updatedAt',
     },
     {
       name: 'Contacts',
@@ -1185,51 +1366,55 @@ function createTableHeader() {
 }
 
 //function create client at table
-function createClientAtTable(id, fullName, array, contactsArr) {
+function createClientAtTable(clientObj) {
   const li = document.createElement('li') //create li 
   li.classList.add('table__list-item')
-  // split from array to date and time
-  const [date, time] = array.dateOfCreation.split(' ')
-  const [lastDate, lastTime] = array.latestChanges.split(' ')
+  // split from clientObj to date and time
+  const [date, time] = clientObj.createdAt ? clientObj.createdAt.split('T') : ['', '']
+  const [lastDate, lastTime] = clientObj.updatedAt ? clientObj.updatedAt.split('T') : ['', '']
 
   //create func create action
   function createAction() {
     const action = createDiv('table__client-action') //create container for action btns
 
     const buttonEdit = createButton('table__client-edit-btn', 'Edit') //create btn edit
+    buttonEdit.id = `edit-btn${clientObj.id}`
     const svgEditBtn = createSvg("d", "M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5ZM13.8067 4.69329C14.0667 4.43329 14.0667 4.01329 13.8067 3.75329L12.2467 2.19329C11.9867 1.93329 11.5667 1.93329 11.3067 2.19329L10.0867 3.41329L12.5867 5.91329L13.8067 4.69329Z", "fill", "#9873FF", "table__actions-svg", "16")
-    buttonEdit.appendChild(svgEditBtn)
+    buttonEdit.append(svgEditBtn)
 
     buttonEdit.addEventListener('click', function () {
       //call create modal window
-      createModalWindow(`Change the data`, id, 'edit', 'modalEdit') //call func pop up window for editing    
+      createModalWindow(`Change the data`, clientObj.id, 'edit', 'modalEdit') //call func pop up window for editing    
     })
 
     const buttonRemove = createButton('table__client-remove-btn', 'Remove') //create btn remove
+    buttonRemove.id = `remove-btn${clientObj.id}`
     const svgRemoveBtn = createSvg("d", "M8 2C4.682 2 2 4.682 2 8C2 11.318 4.682 14 8 14C11.318 14 14 11.318 14 8C14 4.682 11.318 2 8 2ZM8 12.8C5.354 12.8 3.2 10.646 3.2 8C3.2 5.354 5.354 3.2 8 3.2C10.646 3.2 12.8 5.354 12.8 8C12.8 10.646 10.646 12.8 8 12.8ZM10.154 5L8 7.154L5.846 5L5 5.846L7.154 8L5 10.154L5.846 11L8 8.846L10.154 11L11 10.154L8.846 8L11 5.846L10.154 5Z", "fill", "#F06A4D", "table__actions-svg", "16")
     buttonRemove.append(svgRemoveBtn)
+    createAnimation(buttonRemove, 'animated-btn', 'remove-animated')
 
     buttonRemove.addEventListener('click', function () {
-      createModalWindow('Remove a client', id, 'remove', 'modalRemove')
+      createModalWindow('Remove a client', clientObj.id, 'remove', 'modalRemove')
     })
 
     action.append(buttonEdit, buttonRemove)
     return action
   }
 
-  let number = createButton('table__client-id', id)
-  let clientName = createButton('table__client-text', fullName)
-  let dateOfCreating = createButton('table__client-text', date)
-  let timeOfCreating = createParagraph('table__last-changes-time', time)
+  let number = createButton('table__client-id', clientObj.id)
+  let clientName = createButton('table__client-text', getFullName(clientObj))
+  let dateOfCreating = createButton('table__client-text', formatDate(date))
+  let timeOfCreating = createParagraph('table__last-changes-time', formatTime(time))
   dateOfCreating.append(timeOfCreating)
 
-  let lastChangesElement = createButton('table__client-text', lastDate)
-  let timeLastChanges = createParagraph('table__last-changes-time', lastTime)
+  let lastChangesElement = createButton('table__client-text', formatDate(lastDate))
+  let timeLastChanges = createParagraph('table__last-changes-time', formatTime(lastTime))
   lastChangesElement.append(timeLastChanges)
 
-  let clientContacts = createContactsList(contactsArr)
+  let clientContacts = createContactsList(clientObj.contacts)
 
   li.append(number, clientName, dateOfCreating, lastChangesElement, clientContacts, createAction())
+
   return li
 }
 
@@ -1258,29 +1443,34 @@ function createAddClientButton() {
 //function render clients table
 function renderClientsTable(array) {
   clientsList.innerHTML = '' //clear table before render
+  const existingRows = document.querySelectorAll('.table__list-item') // find all rows with clents
+
+  // clear rows with clients before rendering
+  existingRows.forEach(row => {
+    row.remove()
+  })
 
   for (let i = 0; i < array.length; i++) {
-    let client = createClientAtTable(array[i].id,
-      array[i].fullName,
-      array[i],
-      array[i].contacts)
+    let client = createClientAtTable(array[i])
     clientsList.append(client) //add li to ul
   }
 
-  tableBox.append(clientsList) //add table to table box 
-  container.append(tableBox) //add table to container
-  //add button addBtn to container
-  createAddClientButton()
+
+  table.append(clientsList) //add table to table box 
+  tableBox.append(table) //add table to container
 }
 
 //function render DOM
 function renderDom() {
-  createHeader() //func create header
+  createAnimation(animationLoader, 'loader__element', 'loader-element') //func call create animation loading
   const title = createTitle('h1', 'title', 'Clients') //create title
-  container.append(title) //add title 
-  createTableHeader() //create table with buttons
-  renderClientsTable(clientsArray) //render table with clients
+  tableBox.append(animationLoader) //add animation loader
+  container.append(title, tableBox) //add title and animation
+  createAddClientButton() //create button add client 
+  getClientsAndRender() //get info from server
   setClientSortInitial(clientsArray) //set table sort inherit
 }
 
-renderDom()
+window.createHeader = createHeader
+window.createTableHeader = createTableHeader
+window.renderDom = renderDom

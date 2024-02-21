@@ -35,6 +35,33 @@
   }
 }
 
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 :root {
   --white: #FFFFFF;
   --light-grey: #F5F5F5;
@@ -93,7 +120,6 @@ button {
 }
 
 .header {
-  position: relative;
   height: 90px;
   background-color: var(--white);
   box-shadow: 0px 3px 8px 0px var(--medium-grey);
@@ -114,6 +140,7 @@ button {
 }
 
 .header__input-box {
+  position: relative;
   z-index: 20;
 }
 
@@ -147,16 +174,19 @@ button {
   line-height: 33px;
 }
 
+.table-box {
+  overflow-x: auto;
+}
+
 .table {
   margin-bottom: 40px;
-  overflow-x: auto;
 }
 
 .table__sort {
   min-width: fit-content;
   display: flex;
   margin-bottom: 5px;
-  padding: 0 30px;
+  padding: 0 15px;
 }
 
 .table__sort-button {
@@ -216,7 +246,7 @@ button {
 }
 
 #sort-fullName {
-  width: 135px;
+  width: 95px;
   gap: 2px;
 }
 
@@ -237,7 +267,7 @@ button {
 
 #sort-creation,
 #sort-changes {
-  width: 150px;
+  width: 110px;
 }
 
 #sort-creation.early .table__sort-svg-arrow {
@@ -281,6 +311,7 @@ button {
 .table__list-item {
   display: flex;
   align-items: center;
+  gap: 30px;
   padding: 20px 15px;
   min-width: fit-content;
   background-color: var(--white);
@@ -301,7 +332,7 @@ button {
 }
 
 .table__client-text {
-  width: 155px;
+  width: 180px;
   display: flex;
   gap: 3px;
   font-size: 14px;
@@ -332,6 +363,7 @@ button {
   width: 85px;
   display: flex;
   align-items: center;
+  gap: 2px;
   flex-direction: row-reverse;
   font-size: 14px;
   font-weight: 400;
@@ -432,6 +464,36 @@ button {
   fill: var(--white);
 }
 
+.add__button-disabled, 
+.add__button-disabled:focus,
+.add__button-disabled:hover,
+.add__button-disabled:active {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: center;
+  width: 216px;
+  height: 44px;
+  padding: 5px 10px;
+  background-color: var(--grey);
+  opacity: 50%;
+  color: var(--white);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 19px;
+  outline: none;
+  transition: background-color .3s ease-out, color .3s ease-out;
+}
+
+.add__button-disabled .add__button-svg path, 
+.add__button-disabled:focus .add__button-svg path,
+.add__button-disabled:hover .add__button-svg path,
+.add__button-disabled:active .add__button-svg path {
+  fill: var(--white);
+}
+
 /* create modal window */
 .modal {
   display: flex;
@@ -447,6 +509,10 @@ button {
   box-shadow: 0px 0px 35px 0px #00000026;
   transform: scale(0);
   animation: scaleIn 0.3s ease-in-out forwards;
+}
+
+.close-modal {
+  animation: scaleOut 0.3s ease-in-out forwards;
 }
 
 #modalAdd .modal__title-id,
@@ -738,6 +804,11 @@ div#modalRemove {
 
 .modal__save-btn,
 .modal__delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 5px;
   width: 147px;
   font-size: 14px;
   font-weight: 600;
@@ -834,11 +905,12 @@ div#modalRemove {
 .autocomplete-list {
   position: absolute;
   display: none;
-  bottom: -73px;
-  left: 100px;
+  top: 95%;
+  left: 0;
   padding: 10px 30px;
   background-color: rgba(200, 197, 209, 0.4);
-  width: 580px;
+  width: 100%;
+  height: fit-content;
   border: 1px solid #33333333;
   cursor: pointer;
   z-index: 10;
@@ -863,6 +935,51 @@ div#modalRemove {
 }
 
 .autocomplete-fullName:hover {
-  background-color: rgba(200, 197, 209, 0.8);
-  color: var(--purple);
+  background-color: var(--purple);
+  color: var(--white);
+}
+
+/* animation loading */
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+.loader__element {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--purple);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.action-btn-loader {
+  display: none;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--white);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 1s linear infinite;
+}
+
+#remove-animated {
+  display: none;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--red);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 1s linear infinite;
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
