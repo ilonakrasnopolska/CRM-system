@@ -124,7 +124,7 @@ async function changeServerData(id, obj) {
 
   const response = await fetch(`${SERVER_URI}/${id}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'aplication.json' },
+    headers: { 'Content-Type': 'application.json' },
     body: JSON.stringify(obj)
   })
   const data = await response.json()
