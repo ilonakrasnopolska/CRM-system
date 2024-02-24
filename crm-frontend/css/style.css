@@ -180,13 +180,14 @@ button {
 
 .table {
   margin-bottom: 40px;
+  min-height: 370px;
+  background-color: var(--white);
 }
 
 .table__sort {
   min-width: fit-content;
   display: flex;
   margin-bottom: 5px;
-  padding: 0 15px;
 }
 
 .table__sort-button {
@@ -216,7 +217,7 @@ button {
 }
 
 #sort-id {
-  width: 42px;
+  width: 15px;
   color: var(--purple);
 }
 
@@ -246,7 +247,7 @@ button {
 }
 
 #sort-fullName {
-  width: 95px;
+  width: 125px;
   gap: 2px;
 }
 
@@ -254,7 +255,6 @@ button {
   margin-top: 0;
   opacity: 50%;
   transform: rotate(180deg);
-
 }
 
 #sort-fullName.bottom .table__sort-svg-arrow {
@@ -845,7 +845,7 @@ div#modalRemove {
   justify-content: center;
   position: absolute;
   top: -45px;
-  left: -75px;
+  left: -67px;
   min-width: 144px;
   height: 35px;
   padding: 0 15px;

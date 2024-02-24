@@ -4,10 +4,6 @@
     left: 25%;
   }
 
-  .table__sort {
-    gap: 40px;
-  }
-
   .table__list-item {
     gap: 40px;
   }
@@ -25,11 +21,19 @@
   }
 
   #sort-creation, #sort-changes {
-    width: 150px;
+    width: 145px;
   }
 
   .table__contact-list {
     width: 75px;
+  }
+
+  .table__sort-button {
+    margin-right: 25px;
+  }
+
+  #sort-id {
+    width: 100px;
   }
 }
 
@@ -68,13 +72,18 @@
     padding: 0 5px;
   }
 
-  .table__sort {
-    gap: 30px;
-  }
-
   .table__list-item {
     gap: 30px;
   }
+
+  .table__sort-button {
+    margin-right: 13px;
+  }
+
+  #sort-creation, #sort-changes {
+    width: 150px;
+  }
+
 }
 
 @media(max-width: 520px) {

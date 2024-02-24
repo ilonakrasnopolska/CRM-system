@@ -2,18 +2,21 @@
 
 //get url from server
 const SERVER_URI = 'http://localhost:3000/api/clients'
-const headerContainer = document.getElementById('header-container') //get header container
-const container = document.getElementById('container') //get container
-const boxShadowOfBody = document.getElementById('box-shadow') //get div for shadow
-const animationLoader = createDiv('loader') //create animation block
+const headerContainer = document.getElementById('header-container')
+const container = document.getElementById('container')
+//get div for shadow witch we use for modal window
+const boxShadowOfBody = document.getElementById('box-shadow')
+//create animation before we get data from server 
+const animationLoader = createDiv('loader')
 animationLoader.id = 'loader'
 
-
-const tableBox = document.getElementById('table-box') //create all table box
-const table = createDiv('table') //create table
-const clientsList = document.createElement('ul') //create ul
-clientsList.classList.add('table__list') //add class name to table
-const addButton = createButton('add__button-disabled', 'Add client') //create button add client
+//get table wrapper
+const tableBox = document.getElementById('table-box')
+const table = createDiv('table')
+const clientsList = document.createElement('ul')
+clientsList.classList.add('table__list')
+//create button add client
+const addButton = createButton('add__button-disabled', 'Add client')
 
 //current status of modal window 
 let currentModal = null
@@ -21,6 +24,8 @@ let currentModal = null
 let currentServerObjID = null
 //current status of animation for clients list
 let animationPlayed = false
+//create clients array
+let clientsArray = []
 
 //create contacts data array
 let contactsArray = [
@@ -67,9 +72,6 @@ let contactsArray = [
     placeholder: 'Add other contact',
   },
 ]
-
-//create clients array
-let clientsArray = []
 
 // func's for work with server
 
@@ -134,21 +136,25 @@ async function changeServerData(id, obj) {
 
 //function load students and render
 async function getClientsAndRender() {
+  //set status disabled for add contact button
   addButton.disabled = true
-  animationLoading(animationLoader) // Показываем анимацию загрузки
+  // show animation of loading
+  animationLoading(animationLoader)
 
   try {
     let serverData = await getServerData()
 
     if (serverData) {
-      clientsArray = serverData //update array of clients
-      renderClientsTable(clientsArray) //render 
+      //update array of clients
+      clientsArray = serverData
+      renderClientsTable(clientsArray)
     }
   } catch (error) {
     console.error('Error fetching clients:', error)
   } finally {
-    // Скрываем анимацию загрузки после получения данных (или в случае ошибки)
+    //remove animation of loading
     animationLoader.style.display = 'none'
+    //back active status to button 
     addButton.disabled = false
     addButton.classList.add('add__button')
     addButton.classList.remove('add__button-disabled')
@@ -157,16 +163,16 @@ async function getClientsAndRender() {
 
 //function for animation loading 
 async function animationLoading(loader) {
-  // Покажите анимацию перед отправкой запроса
+  // show animation before sending request
   loader.style.display = 'flex'
 
   try {
-    // Отправьте запрос на сервер
+    //send request to server
     const response = await fetch('http://localhost:3000/api/clients')
     const data = await response.json()
 
     loader.classList.add('fade-out')
-    // Скрыть анимацию после получения ответа
+    // hidden animation after getting data 
     loader.addEventListener('animationend', function () {
       loader.style.display = 'none'
       loader.classList.remove('fade-out')
@@ -174,9 +180,9 @@ async function animationLoading(loader) {
 
     return data
   } catch (error) {
-    // Обработайте ошибку
+    // get error if exist
     console.error('Error:', error)
-    // Скрыть анимацию в случае ошибки
+    // hidden animation if error exist
     loader.style.display = 'none'
     return null
   }
@@ -265,17 +271,17 @@ function createSvg(attribute, coordinates, fill, color, className, size) {
   svg.setAttribute("width", size)
   svg.setAttribute("height", size)
 
-  // Создаем элемент path и устанавливаем атрибут d для задания формы
+  // create path and set attribute d 
   const path = document.createElementNS("http://www.w3.org/2000/svg", "path")
   path.setAttribute(attribute, coordinates)
-  path.setAttribute(fill, color) // add color
+  path.setAttribute(fill, color)
 
   // add path to svg
   svg.appendChild(path)
   return svg
 }
 
-//function create animation
+//function create animation element
 function createAnimation(loader, className, id) {
   const loaderElement = createDiv(className)
   loaderElement.id = id
@@ -302,17 +308,19 @@ function stopPropagation(event) {
 //function close modal window 
 function closeModal() {
   if (currentModal) {
-    currentModal.classList.add('close-modal') // добавляем класс анимации закрытия
+    //add class animation for closing modal 
+    currentModal.classList.add('close-modal')
     setTimeout(() => {
       if (currentModal) {
         boxShadowOfBody.classList.add('close')
         boxShadowOfBody.classList.remove('shadow-on')
         currentModal.classList.remove('close-modal')
-        currentModal.remove() // удаляем модальное окно после завершения анимации
+        // remove modal window after finished animation
+        currentModal.remove()
         boxShadowOfBody.classList.remove('close')
         currentModal = null
       }
-    }, 300) // время анимации в миллисекундах
+    }, 300) // time of animation
   }
 }
 
@@ -493,7 +501,7 @@ function formatDate(dateString) {
 function formatTime(timeString) {
   if (!timeString) return ''
 
-  const [hours, minutes] = timeString.split(':').slice(0, 2) // Отрезаем секунды и миллисекунды
+  const [hours, minutes] = timeString.split(':').slice(0, 2)
   return `${hours}:${minutes}`
 }
 
@@ -506,13 +514,12 @@ function renderAutocomplete(clients, searchInput) {
     const autocompleteFullName = createButton('autocomplete-fullName', getFullName(client))
     autocompleteFullName.addEventListener('click', function () {
       searchInput.value = getFullName(client)
-      applyFilters() //add filters for searching
+      //add filters for searching
+      applyFilters()
       autocompleteList.innerHTML = ''
       autocompleteList.classList.remove('active')
     })
-
     autocompleteList.appendChild(autocompleteFullName)
-
   })
 }
 
@@ -612,9 +619,11 @@ function sortByKey(array, key) {
 
 //function set initial value for clients list by id
 function setClientSortInitial(array) {
-  renderClientsTable(array) //render table with clients
-  sortByKey(array, 'id') // set default sorting
-  renderClientsTable(array) //render table with clients
+  renderClientsTable(array)
+  // set default sorting
+  sortByKey(array, 'id')
+  //render table with clients
+  renderClientsTable(array)
 }
 
 //function create of filter 
@@ -735,12 +744,13 @@ async function addNewClient() {
 
   //get close button
   const closeBtn = document.getElementById('close-modal-btn')
-  closeBtn.disabled = true // Disable the close button
+  // Disable the close button
+  closeBtn.disabled = true
 
   //get cancel btn 
   const cancelBtn = document.querySelector('.modal__remove-btn')
-  cancelBtn.disabled = true //disabled the cancel btn
-
+  //disabled the cancel btn
+  cancelBtn.disabled = true
 
   //find all inputs
   let allInputsArray = document.querySelectorAll('.modal__input')
@@ -758,8 +768,9 @@ async function addNewClient() {
   // send data to server
   try {
     let serverDataObj = await addServerData(newClientObj) //add client to server
-    clientsArray.push(serverDataObj) //add obj to array
-    renderClientsTable(clientsArray) //render table
+    //add obj to array
+    clientsArray.push(serverDataObj)
+    renderClientsTable(clientsArray)
     //remove modal with delay
     setTimeout(() => {
       closeModal()
@@ -779,12 +790,23 @@ async function addNewClient() {
 
 //function for edit client data
 async function editClientData(id) {
+  //get animation element 
+  const btnLoader = document.getElementById('btn-loader')
+  //show animation after click at button
+  btnLoader.style.display = 'block'
+
   //get close button
   const closeBtn = document.getElementById('close-modal-btn')
-  closeBtn.disabled = true // Disable the close button
+  // Disable the close button
+  closeBtn.disabled = true
+
+  //get removeClient btn 
+  const removeClientBtn = document.querySelector('.modal__remove-btn')
+  //disabled the removeClient btn
+  removeClientBtn.disabled = true
 
   //find index by id
-  const clientIndex = clientsArray.findIndex(item => item.id === id);
+  const clientIndex = clientsArray.findIndex(item => item.id === id)
   //get all inputs and select
   const allInputsArray = document.querySelectorAll('.modal__input')
 
@@ -823,10 +845,14 @@ async function editClientData(id) {
       }, 100) //delay in milliseconds
 
       // hide animation after rendering
+      btnLoader.style.display = 'none'
       closeBtn.disabled = false
+      removeClientBtn.disabled = false
     } catch (error) {
       // hide animation if mistake
+      btnLoader.style.display = 'none'
       closeBtn.disabled = false
+      removeClientBtn.disabled = false
     }
   }
 }
@@ -859,7 +885,7 @@ async function removeClient(id) {
     } catch (error) {
       // hide animation if mistake
       btnLoader.style.display = 'none'
-      svg.style.display = 'block' 
+      svg.style.display = 'block'
     }
   }
 }
@@ -868,13 +894,13 @@ async function removeClient(id) {
 function createModalWindow(subtitle, id, formType, modalName) {
   // Сохраняем ссылки на созданные элементы .choices
   const createdSelectElements = []
+  //очищаем массив до создания новых ссылок на элементы .choices
+  createdSelectElements.splice(0, createdSelectElements.length)
 
   //call func which create all conditions for closing modal and reset modal before initial new modal
   removeModalEventListeners()
   handleCloseConditions()
   closeModal()
-  //очищаем массив до создания новых ссылок на элементы .choices
-  createdSelectElements.splice(0, createdSelectElements.length)
 
   // Функция для добавления обработчика события к элементам .choices
   function addChoicesEventListener(selectElement) {
@@ -997,9 +1023,17 @@ function createModalWindow(subtitle, id, formType, modalName) {
     createTooltips('', '', removeContactBtn)
 
     removeContactBtn.addEventListener('click', function (event) {
+      const maxContacts = 10
+      const addContactBtn = document.getElementById('add-contact')
+      let inputsArr = document.querySelectorAll('.modal__select-input')
+
       event.stopPropagation()
       event.preventDefault()
       selectBox.remove()
+
+      if (inputsArr.length <= maxContacts) {
+        addContactBtn.classList.remove('modal__hidden-btn')
+      }
     })
 
     //add select and input to box
@@ -1054,8 +1088,11 @@ function createModalWindow(subtitle, id, formType, modalName) {
       let label = createLabel(className, forName, text) //create label
       let input = createInput('modal__input', '', 'text') //create input
       input.setAttribute('name', forName) //add input name
+      input.setAttribute('id', forName) //add input id
       input.setAttribute('data-max-length', '15') //add max length
       input.setAttribute('data-required', 'true')
+
+      label.setAttribute('for', forName) //update attribute
 
       //call func for fill form
       if (formType === 'edit') {
@@ -1125,9 +1162,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
       const maxContacts = 9
       let inputsArr = document.querySelectorAll('.modal__select-input')
 
-      if (inputsArr.length === maxContacts) {
-        addContactBtn.classList.add('modal__hidden-btn')
-      } else {
+      if (inputsArr.length < maxContacts) {
         // call func for choosing add contact to form
         createSelectForAddContact()
         const parent = this.parentNode
@@ -1136,6 +1171,10 @@ function createModalWindow(subtitle, id, formType, modalName) {
           parent.querySelector('.error-label-box').remove()
           addContactBtn.classList.remove('input-error')
         }
+      } if (inputsArr.length >= maxContacts) {
+        // call func for choosing add contact to form
+        createSelectForAddContact()
+        addContactBtn.classList.add('modal__hidden-btn')
       }
     })
   }
@@ -1464,7 +1503,7 @@ function renderClientsTable(array) {
 function renderDom() {
   createAnimation(animationLoader, 'loader__element', 'loader-element') //func call create animation loading
   const title = createTitle('h1', 'title', 'Clients') //create title
-  tableBox.append(animationLoader) //add animation loader
+  table.append(animationLoader) //add animation loader
   container.append(title, tableBox) //add title and animation
   createAddClientButton() //create button add client 
   getClientsAndRender() //get info from server
