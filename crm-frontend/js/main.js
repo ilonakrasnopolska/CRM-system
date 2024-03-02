@@ -488,6 +488,32 @@ function validation(form) {
   return result
 }
 
+//function with keys for event at form for all inputs
+function isControlKey(event) {
+  return event.ctrlKey || event.altKey || event.metaKey || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Home' || event.key === 'End' || event.key === 'Tab'
+}
+
+//function inpus keydown validation
+function inputsKeydownValidation(input) {
+  input.addEventListener('keydown', event => {
+    let key = event.key
+    let isNotDigit = /\D/.test(key)
+
+    if (!isNotDigit && !isControlKey(event)) {
+      event.preventDefault()
+    }
+  })
+  input.addEventListener('blur', event => {
+    let value = event.target.value.trim()
+    value = value.replace(/[^a-zA-Zа-яА-Я\s-]/g, '')
+    value = value.replace(/\s +/g, ' ').replace(/-+/g, '-')
+    value = value.split(' ').map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    }).join(' ')
+    event.target.value = value
+  })
+}
+
 //function formate date and time for document
 function formatDate(dateString) {
   const date = new Date(dateString)
@@ -1091,6 +1117,7 @@ function createModalWindow(subtitle, id, formType, modalName) {
       input.setAttribute('id', forName) //add input id
       input.setAttribute('data-max-length', '15') //add max length
       input.setAttribute('data-required', 'true')
+      inputsKeydownValidation(input) //call func keydown and blur valid
 
       label.setAttribute('for', forName) //update attribute
 
